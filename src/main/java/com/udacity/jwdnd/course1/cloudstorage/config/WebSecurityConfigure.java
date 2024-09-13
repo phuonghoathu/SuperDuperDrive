@@ -23,6 +23,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/signup", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated();
+        
         http.formLogin().loginPage("/login").permitAll();
         http.formLogin().defaultSuccessUrl("/home",true);
 

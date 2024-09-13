@@ -1,6 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
-import com.udacity.jwdnd.course1.cloudstorage.entites.User;
+import com.udacity.jwdnd.course1.cloudstorage.entity.User;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

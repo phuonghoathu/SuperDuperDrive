@@ -44,6 +44,7 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
+
 	/**
 	 * PLEASE DO NOT DELETE THIS method.
 	 * Helper method for Udacity-supplied sanity checks.
@@ -200,6 +201,101 @@ class CloudStorageApplicationTests {
 
 	}
 
+	@Test
+	public void testAccessHome_NoLogin() {
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
 
+	@Test
+	public void testAccessHomePageLogin_andLogout() {
+		// Create a test account
+		doMockSignUp("Home","Test","LFT","123");
+		doLogIn("LFT", "123");
 
+		// Confirm display home page
+		Assertions.assertEquals("http://localhost:" + this.port + "/home", driver.getCurrentUrl());
+
+		// Click logout button
+		WebElement logoutButton = driver.findElement(By.id("logoutButton"));
+		logoutButton.click();
+
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
+	public void testCreateNote() {
+		// Create a test account
+		doMockSignUp("Note","Test","LFT","123");
+		doLogIn("LFT", "123");
+
+		// Confirm display home page
+		Assertions.assertEquals("http://localhost:" + this.port + "/home", driver.getCurrentUrl());
+
+		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+		// Open tab note
+		openTab(webDriverWait,"nav-notes-tab","nav-notes");
+
+		driver.findElement(By.id("addNoteButton")).click();
+
+		// Fill note information
+		fillTextInfo(webDriverWait, "note-title","Note title");
+		fillTextInfo(webDriverWait, "note-description","Note description");
+		driver.findElement(By.id("noteStyleSubmit")).click();
+
+		// Confirm display success screen create note
+		Assertions.assertEquals("http://localhost:" + this.port + "/home/result?success", driver.getCurrentUrl());
+		driver.findElement(By.id("successId")).click();
+
+		openTab(webDriverWait,"nav-notes-tab","nav-notes");
+
+		Assertions.assertTrue(driver.findElement(By.cssSelector("#userTable > tbody > tr:nth-child(1) > th.dspNoteTitle")).getText().contains("Note title"));
+		Assertions.assertTrue(driver.findElement(By.cssSelector("#userTable > tbody > tr:nth-child(1) > td.dspNoteDescription")).getText().contains("Note description"));
+	}
+
+	@Test
+	public void testEditNote() {
+		// Create a test account
+		doMockSignUp("Note","Test","LFT","123");
+		doLogIn("LFT", "123");
+
+		// Confirm display home page
+		Assertions.assertEquals("http://localhost:" + this.port + "/home", driver.getCurrentUrl());
+
+		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+		// Open tab note
+		openTab(webDriverWait,"nav-notes-tab","nav-notes");
+
+		driver.findElement(By.id("addNoteButton")).click();
+
+		// Fill note information
+		fillTextInfo(webDriverWait, "note-title","Note title");
+		fillTextInfo(webDriverWait, "note-description","Note description");
+		driver.findElement(By.id("noteStyleSubmit")).click();
+
+		// Confirm display success screen create note
+		Assertions.assertEquals("http://localhost:" + this.port + "/home/result?success", driver.getCurrentUrl());
+		driver.findElement(By.id("successId")).click();
+
+		openTab(webDriverWait,"nav-notes-tab","nav-notes");
+
+		// Edit tab
+
+		Assertions.assertTrue(driver.findElement(By.cssSelector("#userTable > tbody > tr:nth-child(1) > th.dspNoteTitle")).getText().contains("Note title"));
+		Assertions.assertTrue(driver.findElement(By.cssSelector("#userTable > tbody > tr:nth-child(1) > td.dspNoteDescription")).getText().contains("Note description"));
+	}
+
+	private void openTab(WebDriverWait webDriverWait, String tabId, String tabContentId) {
+		driver.findElement(By.id(tabId)).click();
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id(tabContentId)));
+		driver.findElement(By.id("nav-notes")).click();
+	}
+
+	private void fillTextInfo(WebDriverWait webDriverWait, String elemId, String data) {
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id(elemId)));
+		WebElement inputTitle = driver.findElement(By.id(elemId));
+		inputTitle.click();
+		inputTitle.sendKeys(data);
+	}
 }
