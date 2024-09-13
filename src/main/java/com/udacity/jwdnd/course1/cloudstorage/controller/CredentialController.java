@@ -35,7 +35,7 @@ public class CredentialController {
             credential.setUserId(currentUser.getUserId());
             try {
                 int updateId = credentialService.updateCredential(credential);
-                if (updateId < 0) {
+                if (updateId <= 0) {
                     message = "Have error when update credential.Please try again later";
                 }
             } catch (IOException e) {

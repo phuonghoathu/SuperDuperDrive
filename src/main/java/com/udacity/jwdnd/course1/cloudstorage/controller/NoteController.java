@@ -36,7 +36,7 @@ public class NoteController {
             note.setUserId(currentUser.getUserId());
             try {
                 int updateId = noteService.updateNote(note);
-                if (updateId < 0) {
+                if (updateId <= 0) {
                     message = "Have error when update note.Please try again later";
                 }
             } catch (IOException e) {

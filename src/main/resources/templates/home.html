@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
+                        <button id="addCredentialButton" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
                         </button>
 
@@ -142,9 +142,9 @@
                                         <button type="button" th:onclick="javascript:showCredentialModal([[${cred.credentialId}]],[[${cred.url}]],[[${cred.username}]],[[${cred.passEncode}]])" class="btn btn-success">Edit</button>
                                         <a th:href="@{'/credential/delete/'+${cred.credentialId}}" class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th th:text="${cred.url}" scope="row">Example Credential URL</th>
-                                    <td th:text="${cred.username}">Example Credential Username</td>
-                                    <td th:text="${cred.password}">Example Credential Password</td>
+                                    <th  class="dspCredUrl" th:text="${cred.url}" scope="row">Example Credential URL</th>
+                                    <td  class="dspCredUsername" th:text="${cred.username}">Example Credential Username</td>
+                                    <td  class="dspCredPassword" th:text="${cred.password}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -179,7 +179,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
+                                        <button id="credentialStyleSubmit" type="button" class="btn btn-primary" onclick="$('#credentialSubmit').click();">Save changes</button>
                                     </div>
                                 </div>
                             </div>
